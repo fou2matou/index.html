@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StickSafe | L'élégance comme armure</title>
+    <style>
+        /* --- RESET & FONTS Y2K/FRUTIGER --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #fff0f5 0%, #e6f2ff 50%, #ffd6e8 100%);
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Effet Frutiger Aero : Bulles d'eau et lueurs en arrière-plan */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 20%),
+                radial-gradient(circle at 80% 40%, rgba(179,229,252,0.6) 0%, transparent 30%),
+                radial-gradient(circle at 30% 80%, rgba(255,182,193,0.5) 0%, transparent 25%);
+            z-index: -2;
+        }
+
+        /* --- GLASSMORPHISM & GLOSSY STYLES --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.1),
+                inset 0 4px 4px rgba(255, 255, 255, 0.6),
+                inset 0 -4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .shiny-btn {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            background: linear-gradient(to bottom, #7fc7ff 0%, #3ca0f0 50%, #0072db 100%);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            padding: 14px 32px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 
+                0 8px 15px rgba(0, 114, 219, 0.3),
+                inset 0 4px 6px rgba(255, 255, 255, 0.6);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .shiny-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            background: linear-gradient(to bottom, #a0d7ff 0%, #5cb0f5 50%, #1c82e6 100%);
+            box-shadow: 0 12px 20px rgba(0, 114, 219, 0.4);
+        }
+
+        /* --- HEADER / NAVIGATION --- */
+        header {
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin: 15px 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .logo-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff4081, #00b0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 700;
+            margin: 0 20px;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #ff4081;
+            text-shadow: 0 0 8px rgba(255, 64, 129, 0.3);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            color: #ff5c93;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,176,255,0.2);
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .water-orb {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9) 0%, rgba(160,210,255,0.5) 50%, rgba(0,140,255,0.2) 100%);
+            border-radius: 50%;
+            z-index: -1;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 
+                0 20px 50px rgba(0,114,219,0.15),
+                inset -10px -10px 25px rgba(0,114,219,0.2),
+                inset 15px 15px 25px rgba(255,255,255,0.8);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .product-mockup {
+            max-width: 250px;
+            height: auto;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+        }
+
+        /* --- SECTION FEATURES --- */
+        .reveal-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .reveal-section h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            color: #008cdb;
+            margin-bottom: 40px;
+        }
+
+        .grid-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #e6f7ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 8px 16px rgba(0,140,255,0.15);
+            border: 2px solid #b3e5fc;
+        }
+
+        .feature-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            color: #ff5c93;
+            margin-bottom: 12px;
+        }
+
+        /* --- SECTION APP CONNECTÉE & SMARTPHONE CORRIGÉE --- */
+        .app-showcase {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 60px 40px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .app-text {
+            flex: 1;
+        }
+
+        .app-text h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.8rem;
+            color: #ff5c93;
+            margin-bottom: 20px;
+        }
+
+        .app-features-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .app-features-list li {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #4a5568;
+        }
+
+        .app-features-list li strong {
+            color: #0072db;
+        }
+
+        .phone-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Coque externe du téléphone proportionnelle (Ratio 19.5:9 standard) */
+        .phone-mockup {
+            width: 280px;
+            height: 570px;
+            background: #111;
+            border-radius: 46px;
+            padding: 12px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.4),
+                0 0 0 4px #2d3748,
+                inset 0 4px 6px rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        /* Dynamic Island / Encoche noire du haut */
+        .phone-island {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 22px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+       /* Écran interne sans marges blanches parasites */
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff0f5; /* Fond rose pastel pour fusionner en cas de micro-décalage */
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* TECHNIQUE DU ZOOM : On élimine le blanc intégré à l'image */
+        .phone-app-img {
+            width: 116%;      /* On élargit l'image pour faire disparaître le blanc sur les côtés */
+            height: 125%;     /* On grandit l'image pour masquer le blanc en haut et en bas */
+            object-fit: cover;
+            
+            /* On décale légèrement l'image pour recentrer l'interface */
+            position: absolute;
+            top: -13%;         /* Remonte l'image pour masquer le blanc du haut */
+            left: -4%;        /* Décale à gauche pour masquer le blanc de gauche */
+            display: block;
+        }
+
+        /* --- SECTION SHOP PRINCIPAL --- */
+        .eshop {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 60px 40px;
+        }
+
+        .eshop-container {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .product-display {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            min-height: 450px;
+            align-items: center;
+        }
+
+        #dynamic-stick {
+            max-width: 260px;
+            height: auto;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.12));
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-details h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.2rem;
+            color: #0072db;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .color-selector {
+            margin-bottom: 35px;
+        }
+
+        .color-selector p {
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: #666;
+        }
+
+        .swatches {
+            display: flex;
+            gap: 20px;
+        }
+
+        .swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .swatch:hover { transform: scale(1.15); }
+        .swatch.active { border-color: #0072db; transform: scale(1.1); }
+
+        .swatch.rose { background: linear-gradient(135deg, #ffccd5 0%, #fca3b7 100%); }
+        .swatch.jaune { background: linear-gradient(135deg, #fff5cc 0%, #fae17d 100%); }
+        .swatch.bleu { background: linear-gradient(135deg, #cceeff 0%, #9cdaff 100%); }
+
+        /* --- SECTION RECHARGES --- */
+        .refills-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .refills-section h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            color: #ff5c93;
+            margin-bottom: 40px;
+        }
+
+        .grid-refills {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .refill-card {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .refill-card:hover {
+            transform: scale(1.03) translateY(-5px);
+        }
+
+        .refill-thumb {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
+        }
+
+        .refill-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .refill-price {
+            font-weight: 700;
+            color: #0072db;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        /* --- REASSURANCE --- */
+        .reassurance {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 60px auto 100px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .reassurance-item {
+            text-align: center;
+            font-weight: 700;
+            color: #4a5568;
+        }
+
+        .reassurance-item span {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+            100% { transform: translate(-50%, -50%) translateY(0px); }
+        }
+
+        /* --- ADAPTATION MOBILE COMPLÈTE --- */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+                margin: 10px;
+                text-align: center;
+            }
+            
+            nav {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 5px;
+            }
+
+            nav a {
+                margin: 0;
+                font-size: 1.1rem;
+            }
+
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding: 30px 20px;
+                margin: 10px auto;
+                gap: 30px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.3rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+
+            .hero-image-container {
+                width: 100%;
+                min-height: 280px;
+            }
+
+            .water-orb {
+                width: 250px;
+                height: 250px;
+            }
+
+            .product-mockup {
+                max-width: 160px;
+            }
+
+            .reveal-section {
+                padding: 20px;
+                margin: 40px auto;
+            }
+
+            .reveal-section h2 {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+            }
+
+            .grid-features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .app-showcase {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+                margin: 40px 15px;
+                gap: 40px;
+            }
+
+            .app-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .app-features-list li {
+                text-align: left;
+                font-size: 1rem;
+            }
+
+            .eshop {
+                padding: 40px 20px;
+                margin: 40px 15px;
+            }
+
+            .eshop-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .product-display {
+                min-height: auto;
+                width: 100%;
+            }
+
+            #dynamic-stick {
+                max-width: 160px;
+            }
+
+            .product-details h2 {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            .price {
+                font-size: 1.8rem;
+                text-align: center;
+            }
+
+            .swatches {
+                justify-content: center;
+            }
+
+            .refills-section {
+                padding: 20px;
+                margin: 40px auto;
+            }
+
+            .refills-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .grid-refills {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .reassurance {
+                flex-direction: column;
+                gap: 30px;
+                margin: 40px 15px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV BAR -->
+    <header class="glass-panel">
+        <div class="logo-container">
+            
+            <div class="logo-text">StickSafe</div> <!-- 👈 C'EST CETTE LIGNE QU'IL MANQUAIT ! -->
+        </div>
+        <nav>
+            <a href="#" class="active">Boutique</a>
+            <a href="#">L'Application</a>
+            <a href="#">Comment ça marche ?</a>
+        </nav>
+        <button class="shiny-btn" style="padding: 8px 20px; font-size: 0.9rem;">Panier (0)</button>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>StickSafe : <br>L'élégance comme armure.</h1>
+            <p>Le premier rouge à lèvres connecté qui prend soin de votre style tout en veillant jalousement sur votre sécurité au quotidien.</p>
+            <button class="shiny-btn" onclick="document.getElementById('shop').scrollIntoView({behavior: 'smooth'});">Choisir mon Stick</button>
+        </div>
+        <div class="hero-image-container">
+            <div class="water-orb"></div>
+            <img src="stick-rose.png" alt="StickSafe Rose" class="product-mockup">
+        </div>
+    </section>
+
+    <!-- FONCTIONNALITÉS -->
+    <section class="reveal-section">
+        <h2>Une protection absolue au creux de la main</h2>
+        <div class="grid-features">
+            <div class="feature-card glass-panel">
+                <div class="feature-icon">🚨</div>
+                <h3>Bouton d'alerte SOS</h3>
+                <p>Une pression discrète à la base du tube prévient instantanément vos proches en cas de danger.</p>
+            </div>
+            <div class="feature-card glass-panel">
+                <div class="feature-icon">💄</div>
+                <h3>Design discret</h3>
+                <p>Stick à lèvre discret aux allures d'un simples accesoire de mode, parfaitement dissimulée et accessible immédiatement.</p>
+            </div>
+            <div class="feature-card glass-panel">
+                <div class="feature-icon">📍</div>
+                <h3>Traceur GPS</h3>
+                <p>Envoie votre position en temps réel de manière totalement invisible via l'application.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- APPLICATION MOBILE (CORRIGÉE) -->
+    <section class="app-showcase glass-panel">
+        <div class="app-text">
+            <h2>Une application intelligente liée à votre Lipstick</h2>
+            <p>StickSafe ne vous laisse jamais sans protection. Notre écosystème mobile veille sur vous et sur votre appareil.</p>
+            <ul class="app-features-list">
+                <li>🔔 <strong>Rappels Intelligents :</strong> L'application émet une notification et un rappel bruyant pour vérifier que vous ne sortez jamais avec un stick déchargé.</li>
+                <li>📞 <strong>3 Contacts au Choix :</strong> Enregistrez vos 3 numéros de confiance. En cas de panique, ils sont contactés immédiatement d'un seul geste.</li>
+                <li>🎙️ <strong>Alerte Vocale :</strong> Un bouton micro central ultra-accessible pour envoyer un signal à la voix.</li>
+            </ul>
+        </div>
+        
+        <!-- LE SMARTPHONE AJUSTÉ -->
+        <div class="phone-container">
+            <div class="phone-mockup">
+                <div class="phone-island"></div>
+                <div class="phone-screen">
+                    <!-- Remplace par le nom exact de ton image d'application générée -->
+                    <img src="maquette-app.png" alt="Interface Application StickSafe" class="phone-app-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOUTIQUE PRINCIPALE (STICKS) -->
+    <section class="eshop glass-panel" id="shop">
+        <div class="eshop-container">
+            <div class="product-display">
+                <img id="dynamic-stick" src="stick-rose.png" alt="StickSafe Rose Pastel" style="transition: all 0.4s ease-in-out;">
+            </div>
+            <div class="product-details">
+                <h2 id="product-title">StickSafe Rose Pastel</h2>
+                <div class="price">39,99€</div>
+                <p style="color: #666; margin-bottom: 25px; line-height: 1.5; text-align: center;">Rechargeable connecteur lightning Coque hermétique premium en aluminium brossé ultra-discrète.</p>
+                
+                <div class="color-selector">
+                    <p style="text-align: center;">Choisir votre teinte de stick :</p>
+                    <div class="swatches">
+                        <div class="swatch rose active" onclick="changeColor('rose', 'Rose Pastel', 'stick-rose.png')"></div>
+                        <div class="swatch jaune" onclick="changeColor('jaune', 'Jaune Pastel', 'stick-jaune.png')"></div>
+                        <div class="swatch bleu" onclick="changeColor('bleu', 'Bleu Pastel', 'stick-bleu.png')"></div>
+                    </div>
+                </div>
+
+                <button class="shiny-btn" style="width: 100%; padding: 18px;">AJOUTER AU PANIER</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION RECHARGES DE TEINTES -->
+    <section class="refills-section">
+        <h2>Vos Teintes de Rechange</h2>
+        <p style="color: #666; margin-bottom: 40px; margin-top: -10px;">Ne tombez jamais à court de style. Nos recharges s'enclipsent en 2 secondes chrono.</p>
+        
+        <div class="grid-refills">
+            <!-- Recharge Rose -->
+            <div class="refill-card glass-panel">
+                <img src="recharge-rose.png" alt="Recharge Rose" class="refill-thumb">
+                <h3>Teinte Rose Incognito</h3>
+                <div class="refill-price">7,99€</div>
+                <button class="shiny-btn" style="padding: 10px 20px; font-size: 0.9rem; width: 100%;">Ajouter</button>
+            </div>
+
+            <!-- Recharge Jaune -->
+            <div class="refill-card glass-panel">
+                <img src="recharge-jaune.png" alt="Recharge Jaune" class="refill-thumb">
+                <h3>Teinte Blanc Eclatant</h3>
+                <div class="refill-price">7,99€</div>
+                <button class="shiny-btn" style="padding: 10px 20px; font-size: 0.9rem; width: 100%;">Ajouter</button>
+            </div>
+
+            <!-- Recharge Bleu -->
+            <div class="refill-card glass-panel">
+                <img src="recharge-bleu.png" alt="Recharge Bleu" class="refill-thumb">
+                <h3>Teinte Eclat Bleu Glacé</h3>
+                <div class="refill-price">7,99€</div>
+                <button class="shiny-btn" style="padding: 10px 20px; font-size: 0.9rem; width: 100%;">Ajouter</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- REASSURANCE -->
+    <section class="reassurance glass-panel">
+        <div class="reassurance-item"><span>📦</span>Livraison Discrète</div>
+        <div class="reassurance-item"><span>🛡️</span>Technologie Brevetée</div>
+        <div class="reassurance-item"><span>✨</span>Garantie 2 ans</div>
+    </section>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function changeColor(colorName, label, imageSrc) {
+            document.querySelectorAll('.swatch').forEach(swatch => swatch.classList.remove('active'));
+            document.querySelector(`.swatch.${colorName}`).classList.add('active');
+            
+            document.getElementById('product-title').innerText = `StickSafe ${label}`;
+            
+            const productImg = document.getElementById('dynamic-stick');
+            productImg.style.transform = 'scale(0.85)';
+            productImg.style.opacity = '0.3';
+            
+            setTimeout(() => {
+                productImg.src = imageSrc;
+                productImg.alt = `StickSafe ${label}`;
+                productImg.style.transform = 'scale(1)';
+                productImg.style.opacity = '1';
+            }, 250);
+        }
+    </script>
+</body>
+</html>
